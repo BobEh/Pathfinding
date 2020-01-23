@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pathfinding</title>
+        <style>
+            body{
+                margin: 0;
+            }
+            canvas{
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="js/three.js"></script>
+        <script src="js/OrbitControls.js"></script>
+        <script src="js/ObjectLoader.js"></script>
+        <script>
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            window.addEventListener( 'resize', function(){
+                var width = window.innerWidth;
+                var height = window.innerHeight;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            });
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+            var loader = new THREE.ObjectLoader();
+
+            loader.load(
+                'models/shark_xyz_n_uv.ply',
+
+                function(object){
+                    scene.add(object);
+                }
+            );
+
+            // create the shape and colour/texture
+            var geometry = new THREE.BoxGeometry( 2, 2, 2 );
+            // var cubeMaterials = [
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/TropicalSunnyDayRight2048.png'), side: THREE.DoubleSide}), // right
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/TropicalSunnyDayLeft2048.png'), side: THREE.DoubleSide}), // left
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/TropicalSunnyDayUp2048.png'), side: THREE.DoubleSide}), // top
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/TropicalSunnyDayDown2048.png'), side: THREE.DoubleSide}), // bottom
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/TropicalSunnyDayFront2048.png'), side: THREE.DoubleSide}), // front
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/TropicalSunnyDayBack2048.png'), side: THREE.DoubleSide})  // back
+            // ];
+            // var cubeMaterials = [
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/woodBox.jfif'), side: THREE.DoubleSide}), // right
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/woodBox.jfif'), side: THREE.DoubleSide}), // left
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/woodBox.jfif'), side: THREE.DoubleSide}), // top
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/woodBox.jfif'), side: THREE.DoubleSide}), // bottom
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/woodBox.jfif'), side: THREE.DoubleSide}), // front
+            //     new THREE.MeshPhongMaterial({map: new THREE.TextureLoader().load('images/woodBox.jfif'), side: THREE.DoubleSide})  // back
+            // ];
+            //var material = new THREE.MeshFaceMaterial(cubeMaterials);
+            //var cube = new THREE.Mesh(geometry, material);
+            //scene.add(cube);
+
+            camera.position.z = 3;
+
+            // lighting
+            var ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
+            scene.add(ambientLight);
+
+            // game logic
+            var update = function(){
+                //cube.rotation.x += 0.01;
+                //cube.rotation.y += 0.01;
+            };
+
+            // draw Scene
+            var render = function(){
+                renderer.render(scene, camera);
+            };
+
+            // run game loop (update, render, repeat)
+            var GameLoop = function(){
+                requestAnimationFrame(GameLoop);
+
+                update();
+                render();
+            };
+
+            GameLoop();
+
+        </script>
+
+    </body>
+</html>
